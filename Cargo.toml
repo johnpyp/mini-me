@@ -1,0 +1,25 @@
+[package]
+name = "mini-me"
+version = "0.1.0"
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+sqlx = { features = [
+  "postgres",
+  "runtime-tokio-rustls",
+  "macros",
+  "migrate",
+  "chrono",
+  "offline",
+], version = "0.5.5" }
+serenity = "0.10"
+tracing = "0.1.26"
+tracing-subscriber = "0.2.18"
+tokio = { version = "1.7.0", features = ["full"] }
+dotenv = "0.15.0"
+r2d2 = "0.8.9"
+uuid = { version = "0.8", features = ["serde", "v4"] }
+chrono = "0.4"
+anyhow = "1.0.41"

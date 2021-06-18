@@ -1,0 +1,27 @@
+{
+  "query": "\n        SELECT * FROM guild_data\n        WHERE guild_id = $1;\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "guild_id",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 1,
+        "name": "moderator_role_id",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text"
+      ]
+    },
+    "nullable": [
+      false,
+      true
+    ]
+  },
+  "hash": "c5f33daeb41b0e1686c814899162e194bbb451f63683c982325563c3ed770d5b"
+}

@@ -1,0 +1,40 @@
+{
+  "query": "\n        SELECT * FROM dynamic_commands\n        WHERE guild_id = $1 AND command = $2;\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 1,
+        "name": "guild_id",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "command",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "response",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text",
+        "Text"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "44930ff0190cbadec79fe37366e2de0fbc6cd1d75065194536b7cba03847e2a8"
+}

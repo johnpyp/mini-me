@@ -1,0 +1,16 @@
+services:
+  postgresql-dev:
+    image: docker.io/bitnami/postgresql:11
+    ports:
+      - "5432:5432"
+    volumes:
+      - "postgresql_data_dev:/bitnami/postgresql"
+    environment:
+      - "ALLOW_EMPTY_PASSWORD=yes"
+      - POSTGRESQL_DATABASE=mini_me
+      - POSTGRESQL_USERNAME=mini_me
+      - POSTGRESQL_PASSWORD=mini_me_pass
+
+volumes:
+  postgresql_data_dev:
+    driver: local

@@ -1,0 +1,16 @@
+{
+  "query": "\n        INSERT INTO dynamic_commands (id, command, response, guild_id)\n        VALUES ($1, $2, $3, $4);\n            ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Text",
+        "Text",
+        "Text",
+        "Text"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "c6a369abb39e20dacde9b959ca80d085a1ea290b7b1aab308846fc958ab1e898"
+}

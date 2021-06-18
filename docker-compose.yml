@@ -1,0 +1,26 @@
+services:
+  postgresql:
+    image: docker.io/bitnami/postgresql:11
+    ports:
+      - '5432:5432'
+    volumes:
+      - 'postgresql_data:/bitnami/postgresql'
+    environment:
+      - "ALLOW_EMPTY_PASSWORD=yes"
+      - POSTGRESQL_DATABASE=mini_me
+      - POSTGRESQL_USERNAME=mini_me
+      - POSTGRESQL_PASSWORD=mini_me_pass
+  bot:
+    build:
+      context: .
+    environment:
+      DATABASE_URL: postgres://mini_me:mini_me_pass@postgresql:5432/mini_me
+      DISCORD_TOKEN: ${DISCORD_TOKEN}
+      RUST_LOG: docker
+    tty: true
+    init: true
+    restart: unless-stopped
+
+volumes:
+  postgresql_data:
+    driver: local

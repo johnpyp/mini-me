@@ -1,0 +1,14 @@
+{
+  "query": "\n        INSERT INTO guild_data (guild_id, moderator_role_id)\n        VALUES ($1, $2)\n        ON CONFLICT (guild_id)\n        DO UPDATE SET moderator_role_id = $2;\n            ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Text",
+        "Text"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "8d77005a2429f9a6f6cd1936a1ede8a79492b379b14dcaa5b919b9cf9ed5500b"
+}

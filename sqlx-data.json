@@ -1,0 +1,109 @@
+{
+  "db": "PostgreSQL",
+  "44930ff0190cbadec79fe37366e2de0fbc6cd1d75065194536b7cba03847e2a8": {
+    "query": "\n        SELECT * FROM dynamic_commands\n        WHERE guild_id = $1 AND command = $2;\n            ",
+    "describe": {
+      "columns": [
+        {
+          "ordinal": 0,
+          "name": "id",
+          "type_info": "Text"
+        },
+        {
+          "ordinal": 1,
+          "name": "guild_id",
+          "type_info": "Text"
+        },
+        {
+          "ordinal": 2,
+          "name": "command",
+          "type_info": "Text"
+        },
+        {
+          "ordinal": 3,
+          "name": "response",
+          "type_info": "Text"
+        }
+      ],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Text"
+        ]
+      },
+      "nullable": [
+        false,
+        false,
+        false,
+        false
+      ]
+    }
+  },
+  "6dec8cef75c4e2c79582cc0d589903478c8a5f66d98966705cf12c7693ab4f74": {
+    "query": "\n        DELETE FROM dynamic_commands\n        WHERE guild_id = $1 AND command = $2;\n            ",
+    "describe": {
+      "columns": [],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Text"
+        ]
+      },
+      "nullable": []
+    }
+  },
+  "8d77005a2429f9a6f6cd1936a1ede8a79492b379b14dcaa5b919b9cf9ed5500b": {
+    "query": "\n        INSERT INTO guild_data (guild_id, moderator_role_id)\n        VALUES ($1, $2)\n        ON CONFLICT (guild_id)\n        DO UPDATE SET moderator_role_id = $2;\n            ",
+    "describe": {
+      "columns": [],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Text"
+        ]
+      },
+      "nullable": []
+    }
+  },
+  "c5f33daeb41b0e1686c814899162e194bbb451f63683c982325563c3ed770d5b": {
+    "query": "\n        SELECT * FROM guild_data\n        WHERE guild_id = $1;\n            ",
+    "describe": {
+      "columns": [
+        {
+          "ordinal": 0,
+          "name": "guild_id",
+          "type_info": "Text"
+        },
+        {
+          "ordinal": 1,
+          "name": "moderator_role_id",
+          "type_info": "Text"
+        }
+      ],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      },
+      "nullable": [
+        false,
+        true
+      ]
+    }
+  },
+  "c6a369abb39e20dacde9b959ca80d085a1ea290b7b1aab308846fc958ab1e898": {
+    "query": "\n        INSERT INTO dynamic_commands (id, command, response, guild_id)\n        VALUES ($1, $2, $3, $4);\n            ",
+    "describe": {
+      "columns": [],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Text",
+          "Text",
+          "Text"
+        ]
+      },
+      "nullable": []
+    }
+  }
+}

@@ -1,0 +1,7 @@
+**
+
+!src/**
+!migrations/**
+!sqlx-data.json
+!Cargo.toml
+!Cargo.lock
