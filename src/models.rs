@@ -67,19 +67,21 @@ impl DynamicCommand {
 pub struct GuildData {
     pub guild_id: String,
     pub moderator_role_id: Option<String>,
+    pub dynamic_prefix: Option<String>,
 }
 
 impl GuildData {
     pub async fn upsert(&self, conn: &DbConn) -> Result<bool, sqlx::Error> {
         sqlx::query!(
             r#"
-        INSERT INTO guild_data (guild_id, moderator_role_id)
-        VALUES ($1, $2)
+        INSERT INTO guild_data (guild_id, moderator_role_id, dynamic_prefix)
+        VALUES ($1, $2, $3)
         ON CONFLICT (guild_id)
-        DO UPDATE SET moderator_role_id = $2;
+        DO UPDATE SET moderator_role_id = $2, dynamic_prefix = $3;
             "#,
             self.guild_id,
-            self.moderator_role_id
+            self.moderator_role_id,
+            self.dynamic_prefix
         )
         .execute(conn)
         .await?;
@@ -98,5 +100,15 @@ impl GuildData {
         .fetch_optional(conn)
         .await?;
         return Ok(guild_data);
+    }
+}
+
+impl Default for GuildData {
+    fn default() -> Self {
+        GuildData {
+            guild_id: String::from(""),
+            moderator_role_id: None,
+            dynamic_prefix: None,
+        }
     }
 }

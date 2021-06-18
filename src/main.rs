@@ -22,6 +22,8 @@ use tokio::time::Instant;
 use tracing::{error, info};
 use tracing_subscriber::{EnvFilter, FmtSubscriber};
 
+use crate::models::GuildData;
+
 pub mod db;
 pub mod models;
 
@@ -133,7 +135,28 @@ async fn main() {
 
     // Create the framework
     let framework: StandardFramework = StandardFramework::new()
-        .configure(|c| c.owners(owners).prefix("?"))
+        .configure(|c| {
+            c.owners(owners)
+                .dynamic_prefix(|ctx, msg| {
+                    Box::pin(async move {
+                        let guild_id = match msg.guild_id {
+                            Some(v) => v,
+                            None => return None,
+                        };
+
+                        let data = ctx.data.read().await;
+                        let conn = data.get::<DbContainer>().unwrap();
+                        let guild_data = GuildData::get(&conn, &guild_id.to_string()).await;
+                        if let Ok(guild_data) = guild_data {
+                            if let Some(prefix) = guild_data.and_then(|g| g.dynamic_prefix) {
+                                return Some(prefix);
+                            }
+                        }
+                        return Some("?".to_string());
+                    })
+                })
+                .prefix("??")
+        })
         .unrecognised_command(unrecognised_command_hook)
         .group(&GENERAL_GROUP)
         .group(&COMMAND_GROUP)

@@ -52,19 +52,6 @@
       "nullable": []
     }
   },
-  "8d77005a2429f9a6f6cd1936a1ede8a79492b379b14dcaa5b919b9cf9ed5500b": {
-    "query": "\n        INSERT INTO guild_data (guild_id, moderator_role_id)\n        VALUES ($1, $2)\n        ON CONFLICT (guild_id)\n        DO UPDATE SET moderator_role_id = $2;\n            ",
-    "describe": {
-      "columns": [],
-      "parameters": {
-        "Left": [
-          "Text",
-          "Text"
-        ]
-      },
-      "nullable": []
-    }
-  },
   "c5f33daeb41b0e1686c814899162e194bbb451f63683c982325563c3ed770d5b": {
     "query": "\n        SELECT * FROM guild_data\n        WHERE guild_id = $1;\n            ",
     "describe": {
@@ -78,6 +65,11 @@
           "ordinal": 1,
           "name": "moderator_role_id",
           "type_info": "Text"
+        },
+        {
+          "ordinal": 2,
+          "name": "dynamic_prefix",
+          "type_info": "Text"
         }
       ],
       "parameters": {
@@ -87,6 +79,7 @@
       },
       "nullable": [
         false,
+        true,
         true
       ]
     }
@@ -98,6 +91,20 @@
       "parameters": {
         "Left": [
           "Text",
+          "Text",
+          "Text",
+          "Text"
+        ]
+      },
+      "nullable": []
+    }
+  },
+  "e6fa5024d7be9115d6b4f99aacafeb68be840879fc1be0895d57482b27d3fd0b": {
+    "query": "\n        INSERT INTO guild_data (guild_id, moderator_role_id, dynamic_prefix)\n        VALUES ($1, $2, $3)\n        ON CONFLICT (guild_id)\n        DO UPDATE SET moderator_role_id = $2, dynamic_prefix = $3;\n            ",
+    "describe": {
+      "columns": [],
+      "parameters": {
+        "Left": [
           "Text",
           "Text",
           "Text"
