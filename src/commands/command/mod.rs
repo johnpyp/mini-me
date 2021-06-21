@@ -50,9 +50,8 @@ async fn command_moderator(
         let num_role_id: u64 = moderator_role_id.parse().map_err(|_| Reason::Unknown)?;
         let role_id: RoleId = num_role_id.into();
 
-        let has_perms =
-            user_role_position_check(&ctx.cache, &guild_id, &msg.author.id, &role_id).await;
-        if has_perms {
+        let has_perms = user_role_position_check(&ctx, &guild_id, &msg.author.id, &role_id).await;
+        if let Some(_) = has_perms {
             return Ok(());
         }
     }
@@ -61,27 +60,23 @@ async fn command_moderator(
 }
 
 async fn user_role_position_check(
-    cache: &Cache,
+    ctx: &Context,
     guild_id: &GuildId,
     user_id: &UserId,
     required_role_id: &RoleId,
-) -> bool {
-    let member = match cache.member(guild_id, user_id).await {
-        Some(v) => v,
-        None => return false,
-    };
+) -> Option<()> {
+    let guild = guild_id.to_guild_cached(&ctx.cache).await?;
+    let member = guild.member(&ctx.http, user_id).await.ok()?;
 
-    let required_role = match required_role_id.to_role_cached(cache).await {
-        Some(v) => v,
-        None => return false,
-    };
+    let required_role = required_role_id.to_role_cached(&ctx.cache).await?;
 
-    let member_roles = match member.roles(cache).await {
-        Some(v) => v,
-        None => return false,
-    };
+    let member_roles = member.roles(&ctx.cache).await?;
 
-    return member_roles
+    let has_perms = member_roles
         .iter()
         .any(|role| role.position >= required_role.position);
+    return match has_perms {
+        true => Some(()),
+        false => None,
+    };
 }
