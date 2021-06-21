@@ -17,6 +17,7 @@ use serenity::http::Http;
 use serenity::model::channel::Message;
 use serenity::model::event::ResumedEvent;
 use serenity::model::gateway::Ready;
+use serenity::model::id::UserId;
 use serenity::prelude::*;
 use tokio::time::Instant;
 use tracing::{error, info};
@@ -43,6 +44,12 @@ pub struct DynCommandRateLimit;
 
 impl TypeMapKey for DynCommandRateLimit {
     type Value = Arc<RwLock<HashMap<String, Instant>>>;
+}
+
+pub struct OwnersContainer;
+
+impl TypeMapKey for OwnersContainer {
+    type Value = Arc<RwLock<HashSet<UserId>>>;
 }
 
 struct Handler;
@@ -136,7 +143,7 @@ async fn main() {
     // Create the framework
     let framework: StandardFramework = StandardFramework::new()
         .configure(|c| {
-            c.owners(owners)
+            c.owners(owners.clone())
                 .dynamic_prefix(|ctx, msg| {
                     Box::pin(async move {
                         let guild_id = match msg.guild_id {
@@ -179,6 +186,7 @@ async fn main() {
         data.insert::<ShardManagerContainer>(client.shard_manager.clone());
         data.insert::<DbContainer>(db_conn);
         data.insert::<DynCommandRateLimit>(Arc::new(RwLock::new(HashMap::new())));
+        data.insert::<OwnersContainer>(Arc::new(RwLock::new(HashSet::from(owners))));
     }
 
     let shard_manager = client.shard_manager.clone();

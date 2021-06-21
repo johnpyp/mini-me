@@ -15,7 +15,7 @@ use serenity::model::guild::Role;
 use serenity::model::id::RoleId;
 
 use crate::models::GuildData;
-use crate::DbContainer;
+use crate::{DbContainer, OwnersContainer};
 
 #[group()]
 #[commands(add, get, remove)]
@@ -31,6 +31,13 @@ async fn command_moderator(
 ) -> Result<(), Reason> {
     let data = ctx.data.read().await;
     let conn = data.get::<DbContainer>().unwrap();
+    let owners = data.get::<OwnersContainer>().unwrap();
+    {
+        let owners = owners.read().await;
+        if owners.contains(&msg.author.id) {
+            return Ok(());
+        }
+    }
 
     let guild_id = msg.guild_id.ok_or(Reason::Unknown)?;
 
