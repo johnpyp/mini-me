@@ -11,6 +11,7 @@ use get::*;
 use remove::*;
 use serenity::http::CacheHttp;
 use serenity::model::channel::Message;
+use serenity::model::guild::Role;
 use serenity::model::id::RoleId;
 
 use crate::models::GuildData;
@@ -42,13 +43,20 @@ async fn command_moderator(
         let num_role_id: u64 = moderator_role_id.parse().map_err(|_| Reason::Unknown)?;
         let role_id: RoleId = num_role_id.into();
 
-        if msg
-            .author
-            .has_role(&ctx.http(), guild_id, role_id)
-            .await
-            .map_err(|_| Reason::Unknown)?
-        {
-            return Ok(());
+        let moderator_role = role_id.to_role_cached(&ctx.cache).await;
+        let member = ctx.cache.member(guild_id, msg.author.id).await;
+
+        if let Some(moderator_role) = moderator_role {
+            if let Some(member) = member {
+                for role in member.roles {
+                    let role = role.to_role_cached(&ctx.cache).await;
+                    if let Some(role) = role {
+                        if role.position >= moderator_role.position {
+                            return Ok(());
+                        }
+                    }
+                }
+            }
         }
     }
 
