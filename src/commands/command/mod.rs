@@ -1,4 +1,4 @@
-use serenity::client::{Cache, Context};
+use serenity::client::Context;
 use serenity::framework::standard::macros::{check, group};
 use serenity::framework::standard::{Args, CommandOptions, Reason};
 
@@ -9,9 +9,7 @@ pub mod remove;
 use add::*;
 use get::*;
 use remove::*;
-use serenity::http::CacheHttp;
 use serenity::model::channel::Message;
-use serenity::model::guild::Role;
 use serenity::model::id::{GuildId, RoleId, UserId};
 
 use crate::models::GuildData;
