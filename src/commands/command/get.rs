@@ -12,6 +12,7 @@ use crate::DbContainer;
 #[description = "Get a command"]
 #[num_args(1)]
 #[bucket = "basic"]
+#[owner_privilege]
 pub async fn get(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let data = ctx.data.read().await;
     let conn = data.get::<DbContainer>().unwrap();

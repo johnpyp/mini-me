@@ -14,6 +14,7 @@ use crate::DbContainer;
 #[only_in(guild)]
 #[description = "Add a command"]
 #[min_args(2)]
+#[owner_privilege]
 #[checks(command_moderator)]
 pub async fn add(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let data = ctx.data.read().await;

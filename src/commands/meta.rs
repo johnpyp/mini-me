@@ -17,6 +17,7 @@ async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
 #[command("set-moderator-role")]
 #[required_permissions(MANAGE_GUILD)]
 #[min_args(1)]
+#[owner_privilege]
 async fn set_moderator_role(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let req_role_id = args.single::<RoleId>()?;
 
@@ -55,6 +56,7 @@ async fn set_moderator_role(ctx: &Context, msg: &Message, mut args: Args) -> Com
 #[command("set-prefix")]
 #[required_permissions(MANAGE_GUILD)]
 #[min_args(1)]
+#[owner_privilege]
 async fn set_prefix(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let req_prefix = args.single::<String>()?;
 

@@ -14,6 +14,7 @@ use crate::DbContainer;
 #[description = "Remove a command"]
 #[num_args(1)]
 #[checks(command_moderator)]
+#[owner_privilege]
 pub async fn remove(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let data = ctx.data.read().await;
     let conn = data.get::<DbContainer>().unwrap();
