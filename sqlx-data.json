@@ -52,6 +52,32 @@
       "nullable": []
     }
   },
+  "9d292919b8bd363a5025f9f5bf8bc467d51501fa5502c88993a1eb870ba1a4b1": {
+    "query": "\n        UPDATE dynamic_commands\n        SET\n            response = $2\n        WHERE\n            id = $1;\n            ",
+    "describe": {
+      "columns": [],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Text"
+        ]
+      },
+      "nullable": []
+    }
+  },
+  "a490c0df36b9f9f1f01f9349e5d55085ab66c84dbd1b5cb270f5def3467a7521": {
+    "query": "\n        UPDATE dynamic_commands\n        SET\n            command = $2\n        WHERE\n            id = $1;\n            ",
+    "describe": {
+      "columns": [],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Text"
+        ]
+      },
+      "nullable": []
+    }
+  },
   "c5f33daeb41b0e1686c814899162e194bbb451f63683c982325563c3ed770d5b": {
     "query": "\n        SELECT * FROM guild_data\n        WHERE guild_id = $1;\n            ",
     "describe": {
