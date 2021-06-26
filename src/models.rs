@@ -61,6 +61,50 @@ impl DynamicCommand {
         .await?;
         return Ok(true);
     }
+
+    pub async fn update(&mut self, conn: &DbConn, new_response: &str) -> Result<bool, sqlx::Error> {
+        sqlx::query!(
+            r#"
+        UPDATE dynamic_commands
+        SET
+            response = $2
+        WHERE
+            id = $1;
+            "#,
+            self.id,
+            new_response,
+        )
+        .execute(conn)
+        .await?;
+
+        self.response = new_response.to_string();
+
+        return Ok(true);
+    }
+
+    pub async fn rename(
+        &mut self,
+        conn: &DbConn,
+        new_command_name: &str,
+    ) -> Result<bool, sqlx::Error> {
+        sqlx::query!(
+            r#"
+        UPDATE dynamic_commands
+        SET
+            command = $2
+        WHERE
+            id = $1;
+            "#,
+            self.id,
+            new_command_name,
+        )
+        .execute(conn)
+        .await?;
+
+        self.command = new_command_name.to_string();
+
+        return Ok(true);
+    }
 }
 
 #[derive(sqlx::FromRow)]

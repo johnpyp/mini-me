@@ -5,18 +5,22 @@ use serenity::framework::standard::{Args, CommandOptions, Reason};
 pub mod add;
 pub mod get;
 pub mod remove;
+pub mod rename;
+pub mod update;
 
 use add::*;
 use get::*;
 use remove::*;
+use rename::*;
 use serenity::model::channel::Message;
 use serenity::model::id::{GuildId, RoleId, UserId};
+use update::*;
 
 use crate::models::GuildData;
 use crate::{DbContainer, OwnersContainer};
 
 #[group()]
-#[commands(add, get, remove)]
+#[commands(add, get, remove, update, rename)]
 #[prefix = "command"]
 pub struct Command;
 
