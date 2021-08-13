@@ -24,6 +24,10 @@ Commands:
 - `?commmand get <command>` - Same as running the command itself
 - `?<dynamic command>` - Print the response of a dynamic command
 
+## Command Nuances
+
+- Using `%or` separates the response of a command into multiple equally randomly chosen responses.
+
 ## Notes
 
 Required permissions: 2147814464
