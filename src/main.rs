@@ -9,6 +9,7 @@ use commands::command::*;
 use commands::*;
 use db::DbConn;
 use models::DynamicCommand;
+use rand::prelude::*;
 use serenity::async_trait;
 use serenity::client::bridge::gateway::ShardManager;
 use serenity::framework::standard::macros::hook;
@@ -102,7 +103,15 @@ async fn unrecognised_command_hook(ctx: &Context, msg: &Message, unrecognised_co
             let mut rate_limit = rw_rate_limit.write().await;
             rate_limit.insert(channel_id.to_string(), now);
         }
-        if let Err(err) = msg.channel_id.say(&ctx.http, &command.response).await {
+
+        let split_on_or: Vec<&str> = command.response.split("%or").collect();
+        let mut response: &str = split_on_or.get(0).unwrap();
+        if split_on_or.len() > 1 {
+            let mut rng = thread_rng();
+            response = split_on_or.choose(&mut rng).unwrap()
+        }
+
+        if let Err(err) = msg.channel_id.say(&ctx.http, response).await {
             error!("Error replying with dynamic command: {:?}", err);
         };
         return;
