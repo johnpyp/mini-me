@@ -23,6 +23,11 @@
           "ordinal": 3,
           "name": "response",
           "type_info": "Text"
+        },
+        {
+          "ordinal": 4,
+          "name": "attachment_urls",
+          "type_info": "TextArray"
         }
       ],
       "parameters": {
@@ -35,7 +40,8 @@
         false,
         false,
         false,
-        false
+        false,
+        true
       ]
     }
   },
@@ -47,6 +53,22 @@
         "Left": [
           "Text",
           "Text"
+        ]
+      },
+      "nullable": []
+    }
+  },
+  "734ef3a9ae8d14b237b80f5d7dc08e15c28b29d6188db5a3998162b67767c924": {
+    "query": "\n        INSERT INTO dynamic_commands (id, command, response, guild_id, attachment_urls)\n        VALUES ($1, $2, $3, $4, $5);\n            ",
+    "describe": {
+      "columns": [],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Text",
+          "Text",
+          "Text",
+          "TextArray"
         ]
       },
       "nullable": []
@@ -108,21 +130,6 @@
         true,
         true
       ]
-    }
-  },
-  "c6a369abb39e20dacde9b959ca80d085a1ea290b7b1aab308846fc958ab1e898": {
-    "query": "\n        INSERT INTO dynamic_commands (id, command, response, guild_id)\n        VALUES ($1, $2, $3, $4);\n            ",
-    "describe": {
-      "columns": [],
-      "parameters": {
-        "Left": [
-          "Text",
-          "Text",
-          "Text",
-          "Text"
-        ]
-      },
-      "nullable": []
     }
   },
   "e6fa5024d7be9115d6b4f99aacafeb68be840879fc1be0895d57482b27d3fd0b": {
