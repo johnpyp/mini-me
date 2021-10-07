@@ -1,3 +1,4 @@
+use anyhow::anyhow;
 use serenity::framework::standard::macros::command;
 use serenity::framework::standard::{Args, CommandResult};
 use serenity::model::prelude::*;
@@ -13,7 +14,7 @@ use crate::DbContainer;
 #[command]
 #[only_in(guild)]
 #[description = "Add a command"]
-#[min_args(2)]
+#[min_args(1)]
 #[owner_privilege]
 #[checks(command_moderator)]
 pub async fn add(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
@@ -29,9 +30,27 @@ pub async fn add(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult 
     }
     .to_string();
 
+    let raw_attachment_urls: Vec<String> = msg
+        .attachments
+        .iter()
+        .map(|attachment| attachment.proxy_url.clone())
+        .collect();
+
+    let attachment_urls = if raw_attachment_urls.is_empty() {
+        None
+    } else {
+        Some(raw_attachment_urls)
+    };
+
+    if attachment_urls.is_none() && req_response.is_empty() {
+        error!("Attachment urls & req_response body empty, skipping");
+        return Ok(());
+    }
+
     let new_command = DynamicCommand {
         id: Uuid::new_v4().to_string(),
         command: req_command.clone(),
+        attachment_urls,
         response: req_response,
         guild_id: guild_id.to_string(),
     };

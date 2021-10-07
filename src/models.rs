@@ -4,6 +4,7 @@ use crate::db::DbConn;
 pub struct DynamicCommand {
     pub id: String,
     pub guild_id: String,
+    pub attachment_urls: Option<Vec<String>>,
     pub command: String,
     pub response: String,
 }
@@ -47,15 +48,21 @@ impl DynamicCommand {
     }
 
     pub async fn add(&self, conn: &DbConn) -> Result<bool, sqlx::Error> {
+        let attachment_urls: Option<&[String]> = if let Some(urls) = &self.attachment_urls {
+            Some(urls.as_slice())
+        } else {
+            None
+        };
         sqlx::query!(
             r#"
-        INSERT INTO dynamic_commands (id, command, response, guild_id)
-        VALUES ($1, $2, $3, $4);
+        INSERT INTO dynamic_commands (id, command, response, guild_id, attachment_urls)
+        VALUES ($1, $2, $3, $4, $5);
             "#,
             self.id,
             self.command,
             self.response,
-            self.guild_id
+            self.guild_id,
+            attachment_urls
         )
         .execute(conn)
         .await?;

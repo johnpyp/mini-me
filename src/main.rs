@@ -14,12 +14,13 @@ use serenity::async_trait;
 use serenity::client::bridge::gateway::ShardManager;
 use serenity::framework::standard::macros::hook;
 use serenity::framework::StandardFramework;
-use serenity::http::Http;
-use serenity::model::channel::Message;
+use serenity::http::{AttachmentType, Http};
+use serenity::model::channel::{Attachment, Message};
 use serenity::model::event::ResumedEvent;
 use serenity::model::gateway::Ready;
 use serenity::model::id::UserId;
 use serenity::prelude::*;
+use serenity::utils::MessageBuilder;
 use tokio::time::Instant;
 use tracing::{error, info};
 use tracing_subscriber::{EnvFilter, FmtSubscriber};
@@ -111,7 +112,21 @@ async fn unrecognised_command_hook(ctx: &Context, msg: &Message, unrecognised_co
             response = split_on_or.choose(&mut rng).unwrap()
         }
 
-        if let Err(err) = msg.channel_id.say(&ctx.http, response).await {
+        if let Err(err) = msg
+            .channel_id
+            .send_message(&ctx.http, |m| {
+                m.content(response);
+                if let Some(attachment_urls) = &command.attachment_urls {
+                    let files: Vec<AttachmentType> = attachment_urls
+                        .iter()
+                        .map(|url| AttachmentType::Image(&url))
+                        .collect();
+                    m.add_files(files);
+                };
+                m
+            })
+            .await
+        {
             error!("Error replying with dynamic command: {:?}", err);
         };
         return;
