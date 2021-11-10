@@ -10,6 +10,7 @@ services:
       - POSTGRESQL_DATABASE=mini_me
       - POSTGRESQL_USERNAME=mini_me
       - POSTGRESQL_PASSWORD=mini_me_pass
+    restart: unless-stopped
   bot:
     build:
       context: .
