@@ -23,7 +23,11 @@ pub async fn schizo(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
     let censored_text = censor.censor(&text);
     let res_text = do_schizo(&censored_text);
 
-    msg.channel_id.say(&ctx.http, &res_text).await?;
+    msg.channel_id
+        .send_message(&ctx.http, |m| {
+            m.content(&res_text).allowed_mentions(|am| am.empty_parse())
+        })
+        .await?;
 
     return Ok(());
 }
