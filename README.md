@@ -42,3 +42,4 @@ Required permissions: 2147814464
 ## Contributors
 
 - zoo los
+- amin (security consultant)
