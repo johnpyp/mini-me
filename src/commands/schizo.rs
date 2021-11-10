@@ -1,5 +1,6 @@
 use std::cmp;
 
+use censor::*;
 use rand::prelude::*;
 use rand::Rng;
 use serenity::framework::standard::macros::command;
@@ -18,7 +19,9 @@ pub async fn schizo(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
         return Ok(());
     }
 
-    let res_text = do_schizo(&text);
+    let censor = Censor::Standard;
+    let censored_text = censor.censor(&text);
+    let res_text = do_schizo(&censored_text);
 
     msg.channel_id.say(&ctx.http, &res_text).await?;
 
