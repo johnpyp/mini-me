@@ -38,3 +38,7 @@ Required permissions: 2147814464
 - Use External Emoji
 - Add Reactions
 - Use Slash Commands
+
+## Contributors
+
+- zoo los
