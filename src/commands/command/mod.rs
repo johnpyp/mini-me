@@ -24,6 +24,7 @@ use crate::{DbContainer, OwnersContainer};
 #[prefix = "command"]
 pub struct Command;
 
+
 #[check]
 async fn command_moderator(
     ctx: &Context,
