@@ -22,7 +22,7 @@ pub async fn schizo(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
     let zero_width = '\u{200b}';
     let censor = Censor::Standard;
     let censored_text = censor.replace(&text, "!@#$%");
-    let res_text = zero_width + do_schizo(&censored_text);
+    let res_text = zero_width.to_string() + do_schizo(&censored_text);
 
     msg.channel_id
         .send_message(&ctx.http, |m| {
