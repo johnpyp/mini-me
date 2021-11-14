@@ -221,6 +221,8 @@ async fn main() {
         shard_manager.lock().await.shutdown_all().await;
     });
 
+    info!("Starting bot!");
+
     if let Err(why) = client.start().await {
         error!("Client error: {:?}", why);
     }
