@@ -74,19 +74,6 @@
       "nullable": []
     }
   },
-  "9d292919b8bd363a5025f9f5bf8bc467d51501fa5502c88993a1eb870ba1a4b1": {
-    "query": "\n        UPDATE dynamic_commands\n        SET\n            response = $2\n        WHERE\n            id = $1;\n            ",
-    "describe": {
-      "columns": [],
-      "parameters": {
-        "Left": [
-          "Text",
-          "Text"
-        ]
-      },
-      "nullable": []
-    }
-  },
   "a490c0df36b9f9f1f01f9349e5d55085ab66c84dbd1b5cb270f5def3467a7521": {
     "query": "\n        UPDATE dynamic_commands\n        SET\n            command = $2\n        WHERE\n            id = $1;\n            ",
     "describe": {
@@ -130,6 +117,20 @@
         true,
         true
       ]
+    }
+  },
+  "c8bf1068b47f636573d3ae2d39e91d53226c30fc1392c3d0c40d082d57b8e11b": {
+    "query": "\n        UPDATE dynamic_commands\n        SET\n            response = $2,\n            attachment_urls = $3\n        WHERE\n            id = $1;\n            ",
+    "describe": {
+      "columns": [],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Text",
+          "TextArray"
+        ]
+      },
+      "nullable": []
     }
   },
   "e6fa5024d7be9115d6b4f99aacafeb68be840879fc1be0895d57482b27d3fd0b": {
