@@ -3,6 +3,7 @@ use serenity::framework::standard::{Args, CommandResult};
 use serenity::model::prelude::*;
 use serenity::prelude::*;
 use serenity::utils::MessageBuilder;
+use tracing::log::error;
 
 use super::*;
 use crate::models::DynamicCommand;
@@ -27,10 +28,17 @@ pub async fn update(ctx: &Context, msg: &Message, mut args: Args) -> CommandResu
     }
     .to_string();
 
+    let attachment_urls = get_attachment_urls(msg);
+    if attachment_urls.is_none() && req_response.is_empty() {
+        error!("Attachment urls & req_response body empty, skipping");
+        return Ok(());
+    }
     let command = DynamicCommand::get_command(conn, &guild_id, &req_command).await?;
 
     if let Some(mut command) = command {
-        command.update(conn, &req_response).await?;
+        command
+            .update(conn, &req_response, &attachment_urls)
+            .await?;
 
         let response = MessageBuilder::new()
             .push_safe(&req_command)

@@ -10,5 +10,5 @@ pub async fn establish_connection(database_url: &str) -> DbConn {
         .run(&pool)
         .await
         .expect("Migration run issue");
-    return pool;
+    pool
 }

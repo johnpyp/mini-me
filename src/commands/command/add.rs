@@ -29,17 +29,7 @@ pub async fn add(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult 
     }
     .to_string();
 
-    let raw_attachment_urls: Vec<String> = msg
-        .attachments
-        .iter()
-        .map(|attachment| attachment.proxy_url.clone())
-        .collect();
-
-    let attachment_urls = if raw_attachment_urls.is_empty() {
-        None
-    } else {
-        Some(raw_attachment_urls)
-    };
+    let attachment_urls = get_attachment_urls(msg);
 
     if attachment_urls.is_none() && req_response.is_empty() {
         error!("Attachment urls & req_response body empty, skipping");
@@ -56,7 +46,7 @@ pub async fn add(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult 
 
     let existing_command = DynamicCommand::get_command(conn, &guild_id, &req_command).await?;
 
-    if let Some(_) = existing_command {
+    if existing_command.is_some() {
         msg.channel_id
             .say(
                 &ctx.http,
@@ -84,4 +74,18 @@ pub async fn add(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult 
     msg.channel_id.say(&ctx.http, &response).await?;
 
     Ok(())
+}
+
+pub fn get_attachment_urls(msg: &Message) -> Option<Vec<String>> {
+    let raw_attachment_urls: Vec<String> = msg
+        .attachments
+        .iter()
+        .map(|attachment| attachment.proxy_url.clone())
+        .collect();
+
+    if raw_attachment_urls.is_empty() {
+        None
+    } else {
+        Some(raw_attachment_urls)
+    }
 }

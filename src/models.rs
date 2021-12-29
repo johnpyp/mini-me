@@ -25,7 +25,7 @@ impl DynamicCommand {
         )
         .execute(conn)
         .await?;
-        return Ok(true);
+        Ok(true)
     }
 
     pub async fn get_command(
@@ -44,7 +44,7 @@ impl DynamicCommand {
         )
         .fetch_optional(conn)
         .await?;
-        return Ok(command);
+        Ok(command)
     }
 
     pub async fn add(&self, conn: &DbConn) -> Result<bool, sqlx::Error> {
@@ -66,27 +66,39 @@ impl DynamicCommand {
         )
         .execute(conn)
         .await?;
-        return Ok(true);
+        Ok(true)
     }
 
-    pub async fn update(&mut self, conn: &DbConn, new_response: &str) -> Result<bool, sqlx::Error> {
+    pub async fn update(
+        &mut self,
+        conn: &DbConn,
+        new_response: &str,
+        new_attachment_urls: &Option<Vec<String>>,
+    ) -> Result<bool, sqlx::Error> {
+        let attachment_urls: Option<&[String]> = if let Some(urls) = new_attachment_urls {
+            Some(urls.as_slice())
+        } else {
+            None
+        };
         sqlx::query!(
             r#"
         UPDATE dynamic_commands
         SET
-            response = $2
+            response = $2,
+            attachment_urls = $3
         WHERE
             id = $1;
             "#,
             self.id,
             new_response,
+            attachment_urls
         )
         .execute(conn)
         .await?;
 
         self.response = new_response.to_string();
 
-        return Ok(true);
+        Ok(true)
     }
 
     pub async fn rename(
@@ -110,7 +122,7 @@ impl DynamicCommand {
 
         self.command = new_command_name.to_string();
 
-        return Ok(true);
+        Ok(true)
     }
 }
 
@@ -136,7 +148,8 @@ impl GuildData {
         )
         .execute(conn)
         .await?;
-        return Ok(true);
+
+        Ok(true)
     }
 
     pub async fn get(conn: &DbConn, guild_id: &str) -> Result<Option<GuildData>, sqlx::Error> {
@@ -150,7 +163,7 @@ impl GuildData {
         )
         .fetch_optional(conn)
         .await?;
-        return Ok(guild_data);
+        Ok(guild_data)
     }
 }
 
