@@ -1,3 +1,4 @@
+mod censor;
 mod commands;
 
 use std::collections::{HashMap, HashSet};
@@ -80,7 +81,7 @@ async fn unrecognised_command_hook(ctx: &Context, msg: &Message, unrecognised_co
     }
     .to_string();
 
-    let command = DynamicCommand::get_command(conn, &guild_id, &unrecognised_command_name)
+    let command = DynamicCommand::get_command(conn, &guild_id, unrecognised_command_name)
         .await
         .unwrap_or(None);
 
@@ -118,7 +119,7 @@ async fn unrecognised_command_hook(ctx: &Context, msg: &Message, unrecognised_co
                 if let Some(attachment_urls) = &command.attachment_urls {
                     let files: Vec<AttachmentType> = attachment_urls
                         .iter()
-                        .map(|url| AttachmentType::Image(&url))
+                        .map(|url| AttachmentType::Image(url))
                         .collect();
                     m.add_files(files);
                 };
@@ -176,13 +177,13 @@ async fn main() {
 
                         let data = ctx.data.read().await;
                         let conn = data.get::<DbContainer>().unwrap();
-                        let guild_data = GuildData::get(&conn, &guild_id.to_string()).await;
+                        let guild_data = GuildData::get(conn, &guild_id.to_string()).await;
                         if let Ok(guild_data) = guild_data {
                             if let Some(prefix) = guild_data.and_then(|g| g.dynamic_prefix) {
                                 return Some(prefix);
                             }
                         }
-                        return Some("?".to_string());
+                        Some("?".to_string())
                     })
                 })
                 .prefix("??")
@@ -209,7 +210,7 @@ async fn main() {
         data.insert::<ShardManagerContainer>(client.shard_manager.clone());
         data.insert::<DbContainer>(db_conn);
         data.insert::<DynCommandRateLimit>(Arc::new(RwLock::new(HashMap::new())));
-        data.insert::<OwnersContainer>(Arc::new(RwLock::new(HashSet::from(owners))));
+        data.insert::<OwnersContainer>(Arc::new(RwLock::new(owners)));
     }
 
     let shard_manager = client.shard_manager.clone();
