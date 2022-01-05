@@ -10,6 +10,7 @@ use crate::models::DynamicCommand;
 use crate::DbContainer;
 
 #[command]
+#[aliases("delete")]
 #[only_in(guild)]
 #[description = "Remove a command"]
 #[num_args(1)]
