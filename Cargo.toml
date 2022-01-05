@@ -6,23 +6,23 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-sqlx = { features = [
+sqlx = { version = "0.5.9", features = [
   "postgres",
   "runtime-tokio-rustls",
   "macros",
   "migrate",
   "chrono",
   "offline",
-], version = "0.5.9" }
+]}
 serenity = "0.10.9"
 tracing = "0.1.29"
-tracing-subscriber = { version = "0.3.3", features = ["std", "env-filter", "fmt"] }
-tokio = { version = "1.14.0", features = ["full"] }
+tracing-subscriber = { version = "0.3.4", features = ["std", "env-filter", "fmt"] }
+tokio = { version = "1.15.0", features = ["full"] }
 dotenv = "0.15.0"
 r2d2 = "0.8.9"
 uuid = { version = "0.8.2", features = ["serde", "v4"] }
 chrono = "0.4.19"
-anyhow = "1.0.51"
+anyhow = "1.0.52"
 rand = "0.8.4"
 censor = "0.2.0"
 
