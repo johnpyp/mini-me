@@ -15,7 +15,7 @@ use serenity::prelude::*;
 pub async fn schizo(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
     let text = args.rest().to_string();
 
-    if text.len() < 1 {
+    if text.is_empty() {
         return Ok(());
     }
 
@@ -47,7 +47,7 @@ fn do_schizo(text: &str) -> String {
             continue;
         }
         let num_to_schizo = rng.gen_range(1..4);
-        for i in index..cmp::min(index + num_to_schizo, num_words) {
+        (index..cmp::min(index + num_to_schizo, num_words)).for_each(|i| {
             let num_dots = if rng.gen_range(0..5) == 0 {
                 rng.gen_range(0..4)
             } else {
@@ -60,15 +60,15 @@ fn do_schizo(text: &str) -> String {
             };
             string.push_str(&format!(
                 "{}{}{}",
-                schizo_word(&words[i], &mut rng),
+                schizo_word(words[i], &mut rng),
                 "?".repeat(num_questions),
                 ".".repeat(num_dots)
             ));
             string.push(' ');
-        }
+        });
         index += num_to_schizo;
     }
-    return string;
+    string
 }
 
 fn schizo_word(word: &str, rng: &mut ThreadRng) -> String {

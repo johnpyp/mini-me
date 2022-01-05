@@ -30,7 +30,7 @@ pub async fn remove(ctx: &Context, msg: &Message, mut args: Args) -> CommandResu
 
     let existing_command = DynamicCommand::get_command(conn, &guild_id, &req_command).await?;
 
-    if let None = existing_command {
+    if existing_command.is_none() {
         msg.channel_id
             .say(
                 &ctx.http,
