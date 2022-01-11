@@ -39,6 +39,15 @@ Required permissions: 2147814464
 - Add Reactions
 - Use Slash Commands
 
+## Building
+1. Install rust/cargo/etc., docker + docker-compose
+2. `cargo install sqlx-cli`
+3. `docker-compose -f dev.docker-compose.yml up -d`
+4. `cp .env.example .env`
+5. Add a discord bot token to .env where it says
+6. `sqlx database create`
+7. `cargo build` / `cargo run`
+
 ## Contributors
 
 - zoo los
