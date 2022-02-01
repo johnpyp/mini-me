@@ -40,6 +40,7 @@ Required permissions: 2147814464
 - Use Slash Commands
 
 ## Building
+
 1. Install rust/cargo/etc., docker + docker-compose
 2. `cargo install sqlx-cli`
 3. `docker-compose -f dev.docker-compose.yml up -d`
@@ -50,5 +51,6 @@ Required permissions: 2147814464
 
 ## Contributors
 
+- jp db
 - zoo los
 - amin (security consultant)
