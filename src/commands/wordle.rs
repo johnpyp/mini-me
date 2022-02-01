@@ -2339,7 +2339,7 @@ pub async fn wordle(ctx: &Context, msg: &Message, _args: Args) -> CommandResult 
         None => return Ok(()),
     };
 
-    let res_text: String = format!("\"{today_solution}\" is today's wordle.",);
+    let res_text: String = format!("\"{}\" is today's wordle.", today_solution);
 
     msg.channel_id
         .send_message(&ctx.http, |m| {
