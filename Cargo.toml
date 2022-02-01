@@ -16,6 +16,7 @@ sqlx = { version = "0.5.9", features = [
 ]}
 serenity = "0.10.9"
 tracing = "0.1.29"
+lazy_static = "1.4.0"
 tracing-subscriber = { version = "0.3.4", features = ["std", "env-filter", "fmt"] }
 tokio = { version = "1.15.0", features = ["full"] }
 dotenv = "0.15.0"
