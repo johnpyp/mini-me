@@ -2335,7 +2335,7 @@ pub async fn wordle(ctx: &Context, msg: &Message, _args: Args) -> CommandResult 
     let today_solution = WORDLE_SOLUTIONS.get(&Utc::today());
 
     let today_solution = match today_solution {
-        Some(v) => v.to_lowercase(),
+        Some(v) => v,
         None => return Ok(()),
     };
 
