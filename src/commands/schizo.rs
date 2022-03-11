@@ -1,4 +1,5 @@
 use std::cmp;
+use std::num::IntErrorKind;
 
 use rand::prelude::*;
 use rand::Rng;
@@ -9,11 +10,41 @@ use serenity::prelude::*;
 
 use crate::censor::get_custom_censor;
 
+// after 6 it gets unintelligible. also it will never actually send the string for some reason lol!!!
+const MAX_DEG: u8 = 6; 
+
 #[command]
 #[only_in(guild)]
 #[description = "zoo los schizo"]
 #[min_args(1)]
-pub async fn schizo(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
+pub async fn schizo(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
+    // this is fucking janky
+    let mut schizo_degree = 1;
+    if let Some(curr) = args.current() {
+        schizo_degree = match curr.parse::<u8>() {
+            Ok(deg) => {
+                args.advance();
+                if deg <= 0 {
+                    1
+                } else {
+                    cmp::min(deg, MAX_DEG)
+                }
+            },
+            Err(e) => {
+                match e.kind() {
+                    IntErrorKind::PosOverflow | IntErrorKind::NegOverflow => {
+                        args.advance();
+                        1
+                    },
+                    IntErrorKind::InvalidDigit => 1,
+                    _ => {
+                        return Ok(())
+                    }
+                }
+            }
+        }
+    }
+
     let text = args.rest().to_string();
 
     if text.is_empty() {
@@ -22,8 +53,13 @@ pub async fn schizo(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
 
     let zero_width = '\u{200b}';
     let censor = get_custom_censor();
-    let censored_text = censor.replace(&text, "!@#$%");
-    let res_text = zero_width.to_string() + &do_schizo(&censored_text);
+    let mut censored_text = censor.replace(&text, "!@#$%");
+
+    for _ in 0..schizo_degree {
+        censored_text = do_schizo(&censored_text);
+    }
+
+    let res_text = zero_width.to_string() + &censored_text;
 
     msg.channel_id
         .send_message(&ctx.http, |m| {

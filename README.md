@@ -47,10 +47,12 @@ Required permissions: 2147814464
 4. `cp .env.example .env`
 5. Add a discord bot token to .env where it says
 6. `sqlx database create`
-7. `cargo build` / `cargo run`
+7. `sqlx migrate run`
+8. `cargo build` / `cargo run`
 
 ## Contributors
 
+- eecks
 - jp db
 - zoo los
 - amin (security consultant)
