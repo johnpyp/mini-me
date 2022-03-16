@@ -1,14 +1,13 @@
 use std::cmp;
 use std::num::IntErrorKind;
 
+use censor::Censor;
 use rand::prelude::*;
 use rand::Rng;
 use serenity::framework::standard::macros::command;
 use serenity::framework::standard::{Args, CommandResult};
 use serenity::model::prelude::*;
 use serenity::prelude::*;
-
-use crate::censor::get_custom_censor;
 
 // after 6 it gets unintelligible. also it will never actually send the string for some reason lol!!!
 const MAX_DEG: u8 = 6; 
@@ -52,7 +51,7 @@ pub async fn schizo(ctx: &Context, msg: &Message, mut args: Args) -> CommandResu
     }
 
     let zero_width = '\u{200b}';
-    let censor = get_custom_censor();
+    let censor = Censor::Standard;
     let mut censored_text = censor.replace(&text, "!@#$%");
 
     for _ in 0..schizo_degree {
