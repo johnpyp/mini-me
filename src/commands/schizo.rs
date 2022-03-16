@@ -1,13 +1,12 @@
 use std::cmp;
 
+use censor::Censor;
 use rand::prelude::*;
 use rand::Rng;
 use serenity::framework::standard::macros::command;
 use serenity::framework::standard::{Args, CommandResult};
 use serenity::model::prelude::*;
 use serenity::prelude::*;
-
-use crate::censor::get_custom_censor;
 
 #[command]
 #[only_in(guild)]
@@ -21,7 +20,7 @@ pub async fn schizo(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
     }
 
     let zero_width = '\u{200b}';
-    let censor = get_custom_censor();
+    let censor = Censor::Standard;
     let censored_text = censor.replace(&text, "!@#$%");
     let res_text = zero_width.to_string() + &do_schizo(&censored_text);
 
