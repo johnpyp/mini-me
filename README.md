@@ -19,9 +19,9 @@ Commands:
 
 - `?set-prefix <prefix>` - Set a default prefix for the bot in this server. `?` is the default if left unconfigured, and `??` is always available even if a custom prefix is configured.
 - `?set-moderator-role @role` - Set the minimum discord role required to add/remove commands.
-- `?commmand add <command> <response...>` - Add a dyanmic command! Will respond with the rest of the arguments.
-- `?commmand remove <command>` - Remove a dynamic command.
-- `?commmand get <command>` - Same as running the command itself
+- `?command add <command> <response...>` - Add a dyanmic command! Will respond with the rest of the arguments.
+- `?command remove <command>` - Remove a dynamic command.
+- `?command get <command>` - Same as running the command itself
 - `?<dynamic command>` - Print the response of a dynamic command
 
 ## Command Nuances
