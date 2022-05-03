@@ -56,3 +56,4 @@ Required permissions: 2147814464
 - jp db
 - zoo los
 - amin (security consultant)
+- cake (hacktoberfest contributor)
