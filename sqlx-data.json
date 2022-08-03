@@ -74,6 +74,50 @@
       "nullable": []
     }
   },
+  "9d40b4f9c2da8241120ea10d8dde2e6b2677028d7dd88904bd670da5c2945a49": {
+    "query": "\n        SELECT * FROM dynamic_commands\n        WHERE guild_id = $1;\n            ",
+    "describe": {
+      "columns": [
+        {
+          "ordinal": 0,
+          "name": "id",
+          "type_info": "Text"
+        },
+        {
+          "ordinal": 1,
+          "name": "guild_id",
+          "type_info": "Text"
+        },
+        {
+          "ordinal": 2,
+          "name": "command",
+          "type_info": "Text"
+        },
+        {
+          "ordinal": 3,
+          "name": "response",
+          "type_info": "Text"
+        },
+        {
+          "ordinal": 4,
+          "name": "attachment_urls",
+          "type_info": "TextArray"
+        }
+      ],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      },
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        true
+      ]
+    }
+  },
   "a490c0df36b9f9f1f01f9349e5d55085ab66c84dbd1b5cb270f5def3467a7521": {
     "query": "\n        UPDATE dynamic_commands\n        SET\n            command = $2\n        WHERE\n            id = $1;\n            ",
     "describe": {
