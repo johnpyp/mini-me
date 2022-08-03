@@ -47,6 +47,23 @@ impl DynamicCommand {
         Ok(command)
     }
 
+    pub async fn get_commands_by_guild(
+        conn: &DbConn,
+        guild_id: &str,
+    ) -> Result<Vec<DynamicCommand>, sqlx::Error> {
+        let commands = sqlx::query_as!(
+            DynamicCommand,
+            r#"
+        SELECT * FROM dynamic_commands
+        WHERE guild_id = $1;
+            "#,
+            guild_id
+        )
+        .fetch_all(conn)
+        .await?;
+        Ok(commands)
+    }
+
     pub async fn add(&self, conn: &DbConn) -> Result<bool, sqlx::Error> {
         let attachment_urls: Option<&[String]> = if let Some(urls) = &self.attachment_urls {
             Some(urls.as_slice())

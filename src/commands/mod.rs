@@ -14,5 +14,14 @@ use uwu::*;
 use wordle::*;
 
 #[group]
-#[commands(ping, quit, schizo, uwu, wordle, set_moderator_role, set_prefix)]
+#[commands(
+    ping,
+    quit,
+    schizo,
+    uwu,
+    wordle,
+    set_moderator_role,
+    copy_commands_from,
+    set_prefix
+)]
 pub struct General;
