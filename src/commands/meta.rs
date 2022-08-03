@@ -29,7 +29,7 @@ async fn set_moderator_role(ctx: &Context, msg: &Message, mut args: Args) -> Com
         None => return Ok(()),
     };
 
-    let existing_guild: GuildData = GuildData::get(&conn, &guild_id.to_string())
+    let existing_guild: GuildData = GuildData::get(conn, &guild_id.to_string())
         .await?
         .unwrap_or_default();
 

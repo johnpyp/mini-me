@@ -52,8 +52,8 @@ async fn command_moderator(
         let num_role_id: u64 = moderator_role_id.parse().map_err(|_| Reason::Unknown)?;
         let role_id: RoleId = num_role_id.into();
 
-        let has_perms = user_role_position_check(&ctx, &guild_id, &msg.author.id, &role_id).await;
-        if let Some(_) = has_perms {
+        let has_perms = user_role_position_check(ctx, &guild_id, &msg.author.id, &role_id).await;
+        if has_perms.is_some() {
             return Ok(());
         }
     }
@@ -77,8 +77,8 @@ async fn user_role_position_check(
     let has_perms = member_roles
         .iter()
         .any(|role| role.position >= required_role.position);
-    return match has_perms {
+    match has_perms {
         true => Some(()),
         false => None,
-    };
+    }
 }

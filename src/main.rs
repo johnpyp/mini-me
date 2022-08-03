@@ -105,7 +105,7 @@ async fn unrecognised_command_hook(ctx: &Context, msg: &Message, unrecognised_co
         }
 
         let split_on_or: Vec<&str> = command.response.split("%or").collect();
-        let mut response: &str = split_on_or.get(0).unwrap();
+        let mut response: &str = split_on_or.first().unwrap();
         if split_on_or.len() > 1 {
             let mut rng = thread_rng();
             response = split_on_or.choose(&mut rng).unwrap()
