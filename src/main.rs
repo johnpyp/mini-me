@@ -68,7 +68,7 @@ impl EventHandler for Handler {
 
 #[hook]
 async fn unrecognised_command_hook(ctx: &Context, msg: &Message, unrecognised_command_name: &str) {
-    let min_channel_limit = Duration::from_secs(3);
+    let min_channel_limit = Duration::from_millis(1500);
 
     let data = ctx.data.read().await;
 
