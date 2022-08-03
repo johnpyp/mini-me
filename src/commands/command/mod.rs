@@ -24,7 +24,6 @@ use crate::{DbContainer, OwnersContainer};
 #[prefix = "command"]
 pub struct Command;
 
-
 #[check]
 async fn command_moderator(
     ctx: &Context,
@@ -68,12 +67,12 @@ async fn user_role_position_check(
     user_id: &UserId,
     required_role_id: &RoleId,
 ) -> Option<()> {
-    let guild = guild_id.to_guild_cached(&ctx.cache).await?;
+    let guild = guild_id.to_guild_cached(&ctx.cache)?;
     let member = guild.member(&ctx.http, user_id).await.ok()?;
 
-    let required_role = required_role_id.to_role_cached(&ctx.cache).await?;
+    let required_role = required_role_id.to_role_cached(&ctx.cache)?;
 
-    let member_roles = member.roles(&ctx.cache).await?;
+    let member_roles = member.roles(&ctx.cache)?;
 
     let has_perms = member_roles
         .iter()

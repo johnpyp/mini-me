@@ -1,4 +1,5 @@
 use std::cmp;
+use std::fmt::Write as _;
 use std::num::IntErrorKind;
 
 use censor::Censor;
@@ -10,7 +11,7 @@ use serenity::model::prelude::*;
 use serenity::prelude::*;
 
 // after 6 it gets unintelligible. also it will never actually send the string for some reason lol!!!
-const MAX_DEG: u8 = 6; 
+const MAX_DEG: u8 = 6;
 
 #[command]
 #[only_in(guild)]
@@ -23,24 +24,20 @@ pub async fn schizo(ctx: &Context, msg: &Message, mut args: Args) -> CommandResu
         schizo_degree = match curr.parse::<u8>() {
             Ok(deg) => {
                 args.advance();
-                if deg <= 0 {
+                if deg == 0 {
                     1
                 } else {
                     cmp::min(deg, MAX_DEG)
                 }
-            },
-            Err(e) => {
-                match e.kind() {
-                    IntErrorKind::PosOverflow | IntErrorKind::NegOverflow => {
-                        args.advance();
-                        1
-                    },
-                    IntErrorKind::InvalidDigit => 1,
-                    _ => {
-                        return Ok(())
-                    }
-                }
             }
+            Err(e) => match e.kind() {
+                IntErrorKind::PosOverflow | IntErrorKind::NegOverflow => {
+                    args.advance();
+                    1
+                }
+                IntErrorKind::InvalidDigit => 1,
+                _ => return Ok(()),
+            },
         }
     }
 
@@ -94,12 +91,13 @@ fn do_schizo(text: &str) -> String {
             } else {
                 0
             };
-            string.push_str(&format!(
+            let _ = write!(
+                string,
                 "{}{}{}",
                 schizo_word(words[i], &mut rng),
                 "?".repeat(num_questions),
                 ".".repeat(num_dots)
-            ));
+            );
             string.push(' ');
         });
         index += num_to_schizo;

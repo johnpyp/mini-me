@@ -1,4 +1,3 @@
-mod censor;
 mod commands;
 
 use std::collections::{HashMap, HashSet};
@@ -15,8 +14,8 @@ use serenity::async_trait;
 use serenity::client::bridge::gateway::ShardManager;
 use serenity::framework::standard::macros::hook;
 use serenity::framework::StandardFramework;
-use serenity::http::{AttachmentType, Http};
-use serenity::model::channel::Message;
+use serenity::http::Http;
+use serenity::model::channel::{AttachmentType, Message};
 use serenity::model::event::ResumedEvent;
 use serenity::model::gateway::Ready;
 use serenity::model::id::UserId;
@@ -119,8 +118,9 @@ async fn unrecognised_command_hook(ctx: &Context, msg: &Message, unrecognised_co
                 if let Some(attachment_urls) = &command.attachment_urls {
                     let files: Vec<AttachmentType> = attachment_urls
                         .iter()
-                        .map(|url| AttachmentType::Image(url))
+                        .map(|url| AttachmentType::from(url.as_str()))
                         .collect();
+
                     m.add_files(files);
                 };
                 m
@@ -151,7 +151,7 @@ async fn main() {
 
     let token = env::var("DISCORD_TOKEN").expect("Expected a token in the environment");
 
-    let http = Http::new_with_token(&token);
+    let http = Http::new(&token);
 
     // We will fetch your bot's owners and id
     let (owners, _bot_id) = match http.get_current_application_info().await {
@@ -194,7 +194,13 @@ async fn main() {
         .bucket("basic", |b| b.delay(2).time_span(10).limit(3))
         .await;
 
-    let mut client = Client::builder(&token)
+    let intents = GatewayIntents::non_privileged()
+        | GatewayIntents::MESSAGE_CONTENT
+        | GatewayIntents::GUILD_MESSAGES
+        | GatewayIntents::DIRECT_MESSAGES
+        | GatewayIntents::GUILD_MESSAGE_REACTIONS;
+
+    let mut client = Client::builder(&token, intents)
         .framework(framework)
         .event_handler(Handler)
         .await

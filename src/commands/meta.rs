@@ -31,7 +31,7 @@ async fn set_moderator_role(ctx: &Context, msg: &Message, mut args: Args) -> Com
 
     let existing_guild: GuildData = GuildData::get(&conn, &guild_id.to_string())
         .await?
-        .unwrap_or(GuildData::default());
+        .unwrap_or_default();
 
     let guild_data = GuildData {
         guild_id: guild_id.to_string(),
@@ -60,10 +60,11 @@ async fn set_moderator_role(ctx: &Context, msg: &Message, mut args: Args) -> Com
 async fn set_prefix(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let req_prefix = args.single::<String>()?;
 
-    if req_prefix.len() < 1 {
+    if req_prefix.is_empty() {
         return Ok(());
     }
-    if let Some(_) = serenity::utils::parse_mention(&req_prefix) {
+
+    if req_prefix.starts_with('<') {
         msg.channel_id
             .say(&ctx.http, "Can't use a mention as a prefix")
             .await?;
@@ -78,9 +79,9 @@ async fn set_prefix(ctx: &Context, msg: &Message, mut args: Args) -> CommandResu
         None => return Ok(()),
     };
 
-    let existing_guild: GuildData = GuildData::get(&conn, &guild_id.to_string())
+    let existing_guild: GuildData = GuildData::get(conn, &guild_id.to_string())
         .await?
-        .unwrap_or(GuildData::default());
+        .unwrap_or_default();
     let guild_data = GuildData {
         guild_id: guild_id.to_string(),
         dynamic_prefix: Some(req_prefix.to_string()),
