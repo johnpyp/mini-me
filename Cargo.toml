@@ -1,33 +1,37 @@
 [package]
 name = "mini-me"
 version = "0.1.0"
-edition = "2018"
+edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-sqlx = { version = "0.6.1", features = [
+sqlx = { version = "0.6.3", features = [
   "postgres",
   "runtime-tokio-rustls",
   "macros",
   "migrate",
   "chrono",
   "offline",
-]}
+] }
 serenity = "0.11.5"
-tracing = "0.1.29"
+tracing = "0.1.37"
 lazy_static = "1.4.0"
-tracing-subscriber = { version = "0.3.4", features = ["std", "env-filter", "fmt"] }
-tokio = { version = "1.15.0", features = ["full"] }
+tracing-subscriber = { version = "0.3.16", features = [
+  "std",
+  "env-filter",
+  "fmt",
+] }
+tokio = { version = "1.27.0", features = ["full"] }
 dotenv = "0.15.0"
-r2d2 = "0.8.9"
-uuid = { version = "1.1.2", features = ["serde", "v4"] }
-chrono = "0.4.19"
-anyhow = "1.0.52"
-rand = "0.8.4"
-censor = "0.2.0"
+r2d2 = "0.8.10"
+uuid = { version = "1.3.1", features = ["serde", "v4"] }
+chrono = "0.4.24"
+anyhow = "1.0.70"
+rand = "0.8.5"
+censor = "0.3.0"
 uwuify = "0.2.2"
-url = "2.2.2"
+url = "2.3.1"
 
 [dev-dependencies]
 rusty-hook = "0.11.2"
