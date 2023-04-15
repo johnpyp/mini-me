@@ -143,7 +143,7 @@ impl DynamicCommand {
     }
 }
 
-#[derive(sqlx::FromRow)]
+#[derive(Default, sqlx::FromRow)]
 pub struct GuildData {
     pub guild_id: String,
     pub moderator_role_id: Option<String>,
@@ -181,15 +181,5 @@ impl GuildData {
         .fetch_optional(conn)
         .await?;
         Ok(guild_data)
-    }
-}
-
-impl Default for GuildData {
-    fn default() -> Self {
-        GuildData {
-            guild_id: String::from(""),
-            moderator_role_id: None,
-            dynamic_prefix: None,
-        }
     }
 }
