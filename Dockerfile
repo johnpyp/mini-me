@@ -1,5 +1,5 @@
-FROM lukemathwalker/cargo-chef:latest-rust-1.62.0 AS chef
-WORKDIR app
+FROM lukemathwalker/cargo-chef:latest-rust-1.68.2 AS chef
+WORKDIR /app
 
 FROM chef AS planner
 COPY . .
@@ -15,6 +15,6 @@ RUN cargo build --release --bin mini-me
 
 # We do not need the Rust toolchain to run the binary!
 FROM debian:buster-slim AS runtime
-WORKDIR app
+WORKDIR /app
 COPY --from=builder /app/target/release/mini-me /app/app-bin
 ENTRYPOINT ["/app/app-bin"]
