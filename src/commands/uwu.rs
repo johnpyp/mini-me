@@ -1,6 +1,7 @@
 use censor::Censor;
 use serenity::framework::standard::macros::command;
-use serenity::framework::standard::{Args, CommandResult};
+use serenity::framework::standard::Args;
+use serenity::framework::standard::CommandResult;
 use serenity::model::prelude::*;
 use serenity::prelude::*;
 use uwuifier::uwuify_str_sse;

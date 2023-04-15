@@ -1,4 +1,6 @@
-use sqlx::{postgres, Pool, Postgres};
+use sqlx::postgres;
+use sqlx::Pool;
+use sqlx::Postgres;
 
 pub type DbConn = Pool<Postgres>;
 pub async fn establish_connection(database_url: &str) -> DbConn {

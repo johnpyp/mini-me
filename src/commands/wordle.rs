@@ -2,10 +2,13 @@
 
 use std::collections::HashMap;
 
-use chrono::{Date, TimeZone, Utc};
+use chrono::Date;
+use chrono::TimeZone;
+use chrono::Utc;
 use lazy_static::lazy_static;
 use serenity::framework::standard::macros::command;
-use serenity::framework::standard::{Args, CommandResult};
+use serenity::framework::standard::Args;
+use serenity::framework::standard::CommandResult;
 use serenity::model::prelude::*;
 use serenity::prelude::*;
 

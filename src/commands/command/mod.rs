@@ -1,6 +1,9 @@
 use serenity::client::Context;
-use serenity::framework::standard::macros::{check, group};
-use serenity::framework::standard::{Args, CommandOptions, Reason};
+use serenity::framework::standard::macros::check;
+use serenity::framework::standard::macros::group;
+use serenity::framework::standard::Args;
+use serenity::framework::standard::CommandOptions;
+use serenity::framework::standard::Reason;
 
 pub mod add;
 pub mod get;
@@ -13,11 +16,14 @@ use get::*;
 use remove::*;
 use rename::*;
 use serenity::model::channel::Message;
-use serenity::model::id::{GuildId, RoleId, UserId};
+use serenity::model::id::GuildId;
+use serenity::model::id::RoleId;
+use serenity::model::id::UserId;
 use update::*;
 
 use crate::models::GuildData;
-use crate::{DbContainer, OwnersContainer};
+use crate::DbContainer;
+use crate::OwnersContainer;
 
 #[group()]
 #[commands(add, get, remove, update, rename)]

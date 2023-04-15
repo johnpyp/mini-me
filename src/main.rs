@@ -1,6 +1,7 @@
 mod commands;
 
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
+use std::collections::HashSet;
 use std::env;
 use std::sync::Arc;
 use std::time::Duration;
@@ -15,14 +16,17 @@ use serenity::client::bridge::gateway::ShardManager;
 use serenity::framework::standard::macros::hook;
 use serenity::framework::StandardFramework;
 use serenity::http::Http;
-use serenity::model::channel::{AttachmentType, Message};
+use serenity::model::channel::AttachmentType;
+use serenity::model::channel::Message;
 use serenity::model::event::ResumedEvent;
 use serenity::model::gateway::Ready;
 use serenity::model::id::UserId;
 use serenity::prelude::*;
 use tokio::time::Instant;
-use tracing::{error, info};
-use tracing_subscriber::{EnvFilter, FmtSubscriber};
+use tracing::error;
+use tracing::info;
+use tracing_subscriber::EnvFilter;
+use tracing_subscriber::FmtSubscriber;
 
 use crate::models::GuildData;
 
