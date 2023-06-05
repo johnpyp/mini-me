@@ -9,8 +9,6 @@ use serenity::utils::MessageBuilder;
 #[only_in(guild)]
 #[description = "Age of users"]
 #[min_args(1)]
-#[required_permissions(MANAGE_GUILD)]
-#[owner_privilege]
 pub async fn age(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let mut user_ids = args
         .iter::<UserId>()
